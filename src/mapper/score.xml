@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.ScoreDAO">
+	<resultMap type="score" id="scoreMap">
+		<id property="scoreid" column="scoreid" />
+		<result property="courseid" column="courseid" />
+		<result property="clazzid" column="clazzid" />
+		<result property="usersid" column="usersid" />
+		<result property="normalx" column="normalx" />
+		<result property="exam" column="exam" />
+		<result property="finalx" column="finalx" />
+		<result property="addtime" column="addtime" />
+		<result property="memo" column="memo" />
+		<result property="coursename" column="coursename" />
+		<result property="clazzname" column="clazzname" />
+		<result property="realname" column="realname" />
+		<result property="teacherid" column="teacherid" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertScore" parameterType="score">
+		insert into score(scoreid , courseid , clazzid , usersid , normalx , exam , finalx , addtime , memo )
+		values(#{scoreid} , #{courseid} , #{clazzid} , #{usersid} ,
+		#{normalx} , #{exam} , #{finalx} , #{addtime} , #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateScore" parameterType="score">
+		update score set courseid=#{courseid} , clazzid=#{clazzid} , usersid=#{usersid} , normalx=#{normalx} ,
+		exam=#{exam} , finalx=#{finalx} , addtime=#{addtime} ,
+		memo=#{memo} where scoreid=#{scoreid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteScore" parameterType="String">
+		delete from score where scoreid = #{scoreid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllScore" resultMap="scoreMap">
+		select a.* , b.coursename , c.clazzname , d.realname from score a , course b , clazz c , users d where
+		a.courseid = b.courseid and a.clazzid = c.clazzid and
+		a.usersid = d.usersid order by scoreid desc
+	</select>
+
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getScoreById" parameterType="String" resultMap="scoreMap">
+		select a.* , b.coursename , c.clazzname , d.realname from score a , course b , clazz c ,
+		users d where a.courseid = b.courseid and a.clazzid = c.clazzid and
+		a.usersid = d.usersid and scoreid=#{scoreid} order by scoreid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getScoreByCond" parameterType="score" resultMap="scoreMap">
+		select a.* , b.coursename , c.clazzname , d.realname from score a , course b , clazz c , users d where a.courseid = b.courseid and a.clazzid =
+		c.clazzid and a.usersid = d.usersid
+		<if test="courseid != null and '' != courseid">
+			and a.courseid = #{courseid}
+		</if>
+		<if test="clazzid != null and '' != clazzid">
+			and a.clazzid = #{clazzid}
+		</if>
+		<if test="usersid != null and '' != usersid">
+			and a.usersid = #{usersid}
+		</if>
+		<if test="normalx != null and '' != normalx">
+			and a.normalx = #{normalx}
+		</if>
+		<if test="exam != null and '' != exam">
+			and a.exam = #{exam}
+		</if>
+		<if test="finalx != null and '' != finalx">
+			and a.finalx = #{finalx}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+		<if test="teacherid != null and '' != teacherid">
+			and b.teacherid = #{teacherid}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getScoreByLike" parameterType="score" resultMap="scoreMap">
+		select a.* , b.coursename , c.clazzname , d.realname from score a , course b , clazz c , users d where a.courseid = b.courseid and a.clazzid =
+		c.clazzid and a.usersid = d.usersid
+		<if test="courseid != null and '' != courseid">
+			and b.coursename like CONCAT('%', CONCAT(#{courseid}, '%'))
+		</if>
+		<if test="clazzid != null and '' != clazzid">
+			and c.clazzname like CONCAT('%', CONCAT(#{clazzid}, '%'))
+		</if>
+		<if test="usersid != null and '' != usersid">
+			and d.realname like CONCAT('%', CONCAT(#{usersid}, '%'))
+		</if>
+		<if test="normalx != null and '' != normalx">
+			and a.normalx like CONCAT('%', CONCAT(#{normalx}, '%'))
+		</if>
+		<if test="exam != null and '' != exam">
+			and a.exam like CONCAT('%', CONCAT(#{exam}, '%'))
+		</if>
+		<if test="finalx != null and '' != finalx">
+			and a.finalx like CONCAT('%', CONCAT(#{finalx}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

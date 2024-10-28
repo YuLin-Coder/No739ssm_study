@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.MulitDAO">
+	<resultMap type="mulit" id="mulitMap">
+		<id property="mulitid" column="mulitid" />
+		<result property="question" column="question" />
+		<result property="answera" column="answera" />
+		<result property="answerb" column="answerb" />
+		<result property="answerc" column="answerc" />
+		<result property="answerd" column="answerd" />
+		<result property="answere" column="answere" />
+		<result property="correct" column="correct" />
+		<result property="courseid" column="courseid" />
+		<result property="sectionxid" column="sectionxid" />
+		<result property="parsing" column="parsing" />
+		<result property="addtime" column="addtime" />
+		<result property="coursename" column="coursename" />
+		<result property="sectionxname" column="sectionxname" />
+		<result property="teacherid" column="teacherid" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertMulit" parameterType="mulit">
+		insert into mulit(mulitid , question , answera , answerb , answerc , answerd , answere , correct , courseid ,
+		sectionxid , parsing , addtime ) values(#{mulitid} ,
+		#{question} , #{answera} , #{answerb} , #{answerc} , #{answerd} , #{answere} , #{correct} , #{courseid} ,
+		#{sectionxid} , #{parsing} , #{addtime} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateMulit" parameterType="mulit">
+		update mulit set question=#{question} , answera=#{answera} , answerb=#{answerb} , answerc=#{answerc} ,
+		answerd=#{answerd} , answere=#{answere} , correct=#{correct}
+		, courseid=#{courseid} , sectionxid=#{sectionxid} , parsing=#{parsing} , addtime=#{addtime} where
+		mulitid=#{mulitid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteMulit" parameterType="String">
+		delete from mulit where mulitid = #{mulitid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllMulit" resultMap="mulitMap">
+		select a.* , b.coursename , c.sectionxname from mulit a , course b , sectionx c where a.courseid = b.courseid
+		and
+		a.sectionxid = c.sectionxid order by mulitid desc
+	</select>
+	<select id="getTestMulit" resultMap="mulitMap">
+		select a.* , b.coursename , c.sectionxname from mulit a , course b , sectionx c where a.courseid = b.courseid
+		and a.sectionxid = c.sectionxid and a.courseid = #{courseid} and a.sectionxid = #{sectionxid} ORDER BY RAND() LIMIT 10
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getMulitById" parameterType="String" resultMap="mulitMap">
+		select a.* , b.coursename , c.sectionxname from mulit a , course b , sectionx c where
+		a.courseid = b.courseid
+		and a.sectionxid = c.sectionxid and mulitid=#{mulitid} order by mulitid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getMulitByCond" parameterType="mulit" resultMap="mulitMap">
+		select a.* , b.coursename , c.sectionxname from mulit a , course b , sectionx c where a.courseid = b.courseid
+		and a.sectionxid = c.sectionxid
+		<if test="question != null and '' != question">
+			and a.question = #{question}
+		</if>
+		<if test="answera != null and '' != answera">
+			and a.answera = #{answera}
+		</if>
+		<if test="answerb != null and '' != answerb">
+			and a.answerb = #{answerb}
+		</if>
+		<if test="answerc != null and '' != answerc">
+			and a.answerc = #{answerc}
+		</if>
+		<if test="answerd != null and '' != answerd">
+			and a.answerd = #{answerd}
+		</if>
+		<if test="answere != null and '' != answere">
+			and a.answere = #{answere}
+		</if>
+		<if test="correct != null and '' != correct">
+			and a.correct = #{correct}
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and a.courseid = #{courseid}
+		</if>
+		<if test="sectionx != null and '' != sectionx">
+			and a.sectionxid = #{sectionx}
+		</if>
+		<if test="parsing != null and '' != parsing">
+			and a.parsing = #{parsing}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="teacherid != null and '' != teacherid">
+			and b.teacherid = #{teacherid}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getMulitByLike" parameterType="mulit" resultMap="mulitMap">
+		select a.* , b.coursename , c.sectionxname from mulit a , course b , sectionx c where a.courseid = b.courseid
+		and a.sectionxid = c.sectionxid
+		<if test="question != null and '' != question">
+			and a.question like CONCAT('%', CONCAT(#{question}, '%'))
+		</if>
+		<if test="answera != null and '' != answera">
+			and a.answera like CONCAT('%', CONCAT(#{answera}, '%'))
+		</if>
+		<if test="answerb != null and '' != answerb">
+			and a.answerb like CONCAT('%', CONCAT(#{answerb}, '%'))
+		</if>
+		<if test="answerc != null and '' != answerc">
+			and a.answerc like CONCAT('%', CONCAT(#{answerc}, '%'))
+		</if>
+		<if test="answerd != null and '' != answerd">
+			and a.answerd like CONCAT('%', CONCAT(#{answerd}, '%'))
+		</if>
+		<if test="answere != null and '' != answere">
+			and a.answere like CONCAT('%', CONCAT(#{answere}, '%'))
+		</if>
+		<if test="correct != null and '' != correct">
+			and a.correct like CONCAT('%', CONCAT(#{correct}, '%'))
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and b.coursename like CONCAT('%', CONCAT(#{courseid}, '%'))
+		</if>
+		<if test="sectionx != null and '' != sectionx">
+			and c.sectionxname like CONCAT('%', CONCAT(#{sectionx}, '%'))
+		</if>
+		<if test="parsing != null and '' != parsing">
+			and a.parsing like CONCAT('%', CONCAT(#{parsing}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

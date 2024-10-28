@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.SingleDAO">
+	<resultMap type="single" id="singleMap">
+		<id property="singleid" column="singleid" />
+		<result property="question" column="question" />
+		<result property="answera" column="answera" />
+		<result property="answerb" column="answerb" />
+		<result property="answerc" column="answerc" />
+		<result property="answerd" column="answerd" />
+		<result property="correct" column="correct" />
+		<result property="courseid" column="courseid" />
+		<result property="sectionxid" column="sectionxid" />
+		<result property="parsing" column="parsing" />
+		<result property="addtime" column="addtime" />
+		<result property="coursename" column="coursename" />
+		<result property="sectionxname" column="sectionxname" />
+		<result property="teacherid" column="teacherid" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertSingle" parameterType="single">
+		insert into single(singleid , question , answera , answerb , answerc , answerd , correct , courseid , sectionxid
+		, parsing , addtime ) values(#{singleid} ,
+		#{question} , #{answera} , #{answerb} , #{answerc} , #{answerd} , #{correct} , #{courseid} , #{sectionxid} ,
+		#{parsing} , #{addtime} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateSingle" parameterType="single">
+		update single set question=#{question} , answera=#{answera} , answerb=#{answerb} , answerc=#{answerc} ,
+		answerd=#{answerd} , correct=#{correct} ,
+		courseid=#{courseid} , sectionxid=#{sectionxid} , parsing=#{parsing} , addtime=#{addtime} where singleid=#{singleid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteSingle" parameterType="String">
+		delete from single where singleid = #{singleid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllSingle" resultMap="singleMap">
+		select a.* , b.coursename , c.sectionxname from single a , course b , sectionx c where a.courseid =
+		b.courseid and
+		a.sectionxid = c.sectionxid order by
+		singleid desc
+	</select>
+	<select id="getTestSingle" resultMap="singleMap">
+		select a.* , b.coursename , c.sectionxname from single a , course b , sectionx c where a.courseid =
+		b.courseid and
+		a.sectionxid = c.sectionxid and a.courseid = #{courseid} and a.sectionxid = #{sectionxid} ORDER BY RAND() LIMIT 10
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getSingleById" parameterType="String" resultMap="singleMap">
+		select a.* , b.coursename , c.sectionxname from single a , course b , sectionx c where 1=1
+		and a.courseid = b.courseid and a.sectionxid = c.sectionxid and
+		singleid=#{singleid} order by singleid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getSingleByCond" parameterType="single" resultMap="singleMap">
+		select a.* , b.coursename , c.sectionxname from single a , course b , sectionx c where a.courseid = b.courseid and a.sectionxid = c.sectionxid
+		<if test="question != null and '' != question">
+			and a.question = #{question}
+		</if>
+		<if test="answera != null and '' != answera">
+			and a.answera = #{answera}
+		</if>
+		<if test="answerb != null and '' != answerb">
+			and a.answerb = #{answerb}
+		</if>
+		<if test="answerc != null and '' != answerc">
+			and a.answerc = #{answerc}
+		</if>
+		<if test="answerd != null and '' != answerd">
+			and a.answerd = #{answerd}
+		</if>
+		<if test="correct != null and '' != correct">
+			and a.correct = #{correct}
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and a.courseid = #{courseid}
+		</if>
+		<if test="sectionxid != null and '' != sectionxid">
+			and a.sectionxid = #{sectionxid}
+		</if>
+		<if test="parsing != null and '' != parsing">
+			and a.parsing = #{parsing}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="teacherid != null and '' != teacherid">
+			and b.teacherid = #{teacherid}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getSingleByLike" parameterType="single" resultMap="singleMap">
+		select a.* , b.coursename , c.sectionxname from single a , course b , sectionx c where a.courseid = b.courseid and a.sectionxid = c.sectionxid
+		<if test="question != null and '' != question">
+			and a.question like CONCAT('%', CONCAT(#{question}, '%'))
+		</if>
+		<if test="answera != null and '' != answera">
+			and a.answera like CONCAT('%', CONCAT(#{answera}, '%'))
+		</if>
+		<if test="answerb != null and '' != answerb">
+			and a.answerb like CONCAT('%', CONCAT(#{answerb}, '%'))
+		</if>
+		<if test="answerc != null and '' != answerc">
+			and a.answerc like CONCAT('%', CONCAT(#{answerc}, '%'))
+		</if>
+		<if test="answerd != null and '' != answerd">
+			and a.answerd like CONCAT('%', CONCAT(#{answerd}, '%'))
+		</if>
+		<if test="correct != null and '' != correct">
+			and a.correct like CONCAT('%', CONCAT(#{correct}, '%'))
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and b.coursename like CONCAT('%', CONCAT(#{courseid}, '%'))
+		</if>
+		<if test="sectionxid != null and '' != sectionxid">
+			and c.sectionxname like CONCAT('%', CONCAT(#{sectionxid}, '%'))
+		</if>
+		<if test="parsing != null and '' != parsing">
+			and a.parsing like CONCAT('%', CONCAT(#{parsing}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

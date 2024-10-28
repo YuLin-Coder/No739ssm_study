@@ -1,0 +1,25 @@
+body,h1,h2,h3,ul,li,p{margin:0;padding:0;}
+ul{list-style-type:none;}
+/**
+ * 横向滚动
+ * ------------------------------ */
+.scroll_horizontal_pic{
+	position:relative;
+	width:100%;
+	background-color:#FFF;
+	padding-top: 8px;
+	margin: auto;
+	font-size: 14px;
+}
+
+.scroll_horizontal_pic .a{
+	font-size: 14px;
+}
+.scroll_horizontal_pic .box{overflow:hidden;position:relative;width:99%;margin:auto;}
+.scroll_horizontal_pic .list{overflow:hidden;width:9999px;}
+.scroll_horizontal_pic .list li{float:left;width:225px;}
+
+
+.scroll_horizontal_pic .prev:hover{background-position:0 -50px;}
+.scroll_horizontal_pic .next:hover{background-position:-40px -50px;}
+/**

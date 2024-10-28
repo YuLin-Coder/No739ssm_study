@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.FillinDAO">
+	<resultMap type="fillin" id="fillinMap">
+		<id property="fillinid" column="fillinid" />
+		<result property="question" column="question" />
+		<result property="correct" column="correct" />
+		<result property="courseid" column="courseid" />
+		<result property="sectionxid" column="sectionxid" />
+		<result property="parsing" column="parsing" />
+		<result property="addtime" column="addtime" />
+		<result property="coursename" column="coursename" />
+		<result property="sectionxname" column="sectionxname" />
+		<result property="teacherid" column="teacherid" />
+
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertFillin" parameterType="fillin">
+		insert into fillin(fillinid , question , correct , courseid , sectionxid , parsing , addtime )
+		values(#{fillinid} , #{question} , #{correct} , #{courseid} ,
+		#{sectionxid} , #{parsing} , #{addtime} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateFillin" parameterType="fillin">
+		update fillin set question=#{question} , correct=#{correct} , courseid=#{courseid} , sectionxid=#{sectionxid} ,
+		parsing=#{parsing} , addtime=#{addtime} where
+		fillinid=#{fillinid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteFillin" parameterType="String">
+		delete from fillin where fillinid = #{fillinid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllFillin" resultMap="fillinMap">
+		select a.* , b.coursename , c.sectionxname from fillin a , course b , sectionx c where a.courseid =
+		b.courseid and
+		a.sectionxid = c.sectionxid order by
+		fillinid desc
+	</select>
+	<select id="getTestFillin" resultMap="fillinMap">
+		select a.* , b.coursename , c.sectionxname from fillin a , course b , sectionx c where a.courseid =
+		b.courseid and
+		a.sectionxid = c.sectionxid and a.courseid = #{courseid} and a.sectionxid = #{sectionxid} ORDER BY RAND() LIMIT 10
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getFillinById" parameterType="String" resultMap="fillinMap">
+		select a.* , b.coursename , c.sectionxname from fillin a , course b , sectionx c where 1=1
+		and a.courseid = b.courseid and a.sectionxid = c.sectionxid and
+		fillinid=#{fillinid} order by fillinid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getFillinByCond" parameterType="fillin" resultMap="fillinMap">
+		select a.* , b.coursename , c.sectionxname from fillin a , course b , sectionx c where a.courseid = b.courseid and a.sectionxid = c.sectionxid
+		<if test="question != null and '' != question">
+			and a.question = #{question}
+		</if>
+		<if test="correct != null and '' != correct">
+			and a.correct = #{correct}
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and a.courseid = #{courseid}
+		</if>
+		<if test="sectionxid != null and '' != sectionxid">
+			and a.sectionxid = #{sectionxid}
+		</if>
+		<if test="parsing != null and '' != parsing">
+			and a.parsing = #{parsing}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="teacherid != null and '' != teacherid">
+			and b.teacherid = #{teacherid}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getFillinByLike" parameterType="fillin" resultMap="fillinMap">
+		select a.* , b.coursename , c.sectionxname from fillin a , course b , sectionx c where a.courseid = b.courseid and a.sectionxid = c.sectionxid
+		<if test="question != null and '' != question">
+			and a.question like CONCAT('%', CONCAT(#{question}, '%'))
+		</if>
+		<if test="correct != null and '' != correct">
+			and a.correct like CONCAT('%', CONCAT(#{correct}, '%'))
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and b.coursename like CONCAT('%', CONCAT(#{courseid}, '%'))
+		</if>
+		<if test="sectionxid != null and '' != sectionxid">
+			and c.sectionxname like CONCAT('%', CONCAT(#{sectionxid}, '%'))
+		</if>
+		<if test="parsing != null and '' != parsing">
+			and a.parsing like CONCAT('%', CONCAT(#{parsing}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

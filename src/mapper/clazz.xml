@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.ClazzDAO">
+	<resultMap type="clazz" id="clazzMap">
+		<id property="clazzid" column="clazzid" />
+		<result property="clazzname" column="clazzname" />
+		<result property="manager" column="manager" />
+		<result property="addtime" column="addtime" />
+		<result property="deptid" column="deptid" />
+		<result property="memo" column="memo" />
+		<result property="deptname" column="deptname" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertClazz" parameterType="clazz">
+		insert into clazz(clazzid , clazzname , manager , addtime , deptid , memo ) values(#{clazzid} , #{clazzname} , #{manager} , #{addtime} , #{deptid} , #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateClazz" parameterType="clazz">
+		update clazz set clazzname=#{clazzname} , manager=#{manager} , addtime=#{addtime} , deptid=#{deptid} , memo=#{memo} where clazzid=#{clazzid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteClazz" parameterType="String">
+		delete from clazz where clazzid = #{clazzid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllClazz" resultMap="clazzMap">
+		select a.* , b.deptname from clazz a , dept b where a.deptid = b.deptid order by clazzid desc
+	</select>
+
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getClazzById" parameterType="String" resultMap="clazzMap">
+		select a.* , b.deptname from clazz a , dept b where a.deptid = b.deptid and clazzid=#{clazzid} order by clazzid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getClazzByCond" parameterType="clazz" resultMap="clazzMap">
+		select a.* , b.deptname from clazz a , dept b where a.deptid = b.deptid
+		<if test="clazzname != null and '' != clazzname">
+			and a.clazzname = #{clazzname}
+		</if>
+		<if test="manager != null and '' != manager">
+			and a.manager = #{manager}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="deptid != null and '' != deptid">
+			and a.deptid = #{deptid}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getClazzByLike" parameterType="clazz" resultMap="clazzMap">
+		select a.* , b.deptname from clazz a , dept b where a.deptid = b.deptid
+		<if test="clazzname != null and '' != clazzname">
+			and a.clazzname like CONCAT('%', CONCAT(#{clazzname}, '%'))
+		</if>
+		<if test="manager != null and '' != manager">
+			and a.manager like CONCAT('%', CONCAT(#{manager}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="deptid != null and '' != deptid">
+			and b.deptname like CONCAT('%', CONCAT(#{deptid}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

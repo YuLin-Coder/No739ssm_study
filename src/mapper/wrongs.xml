@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.WrongsDAO">
+	<resultMap type="wrongs" id="wrongsMap">
+		<id property="wrongsid" column="wrongsid" />
+		<result property="usersid" column="usersid" />
+		<result property="courseid" column="courseid" />
+		<result property="sectionxid" column="sectionxid" />
+		<result property="quections" column="quections" />
+		<result property="parsing" column="parsing" />
+		<result property="addtime" column="addtime" />
+		<result property="realname" column="realname" />
+		<result property="coursename" column="coursename" />
+		<result property="sectionxname" column="sectionxname" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertWrongs" parameterType="wrongs">
+		insert into wrongs(wrongsid , usersid , courseid , sectionxid , quections , parsing , addtime ) values(#{wrongsid} , #{usersid} , #{courseid} , #{sectionxid} ,
+		#{quections} , #{parsing} , #{addtime} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateWrongs" parameterType="wrongs">
+		update wrongs set usersid=#{usersid} , courseid=#{courseid} , sectionxid=#{sectionxid} , quections=#{quections} , parsing=#{parsing} , addtime=#{addtime} where
+		wrongsid=#{wrongsid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteWrongs" parameterType="String">
+		delete from wrongs where wrongsid = #{wrongsid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllWrongs" resultMap="wrongsMap">
+		select a.* , b.realname , c.coursename , d.sectionxname from wrongs a , users b , course c , sectionx d where a.usersid = b.usersid and a.courseid = c.courseid and
+		a.sectionxid = d.sectionxid order by wrongsid desc
+	</select>
+
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getWrongsById" parameterType="String" resultMap="wrongsMap">
+		select a.* , b.realname , c.coursename , d.sectionxname from wrongs a , users b , course c , sectionx d where a.usersid = b.usersid and a.courseid = c.courseid and
+		a.sectionxid = d.sectionxid and wrongsid=#{wrongsid} order by wrongsid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getWrongsByCond" parameterType="wrongs" resultMap="wrongsMap">
+		select a.* , b.realname , c.coursename , d.sectionxname from wrongs a , users b , course c , sectionx d where a.usersid = b.usersid and a.courseid =
+		c.courseid and a.sectionxid = d.sectionxid
+		<if test="usersid != null and '' != usersid">
+			and a.usersid = #{usersid}
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and a.courseid = #{courseid}
+		</if>
+		<if test="sectionxid != null and '' != sectionxid">
+			and a.sectionxid = #{sectionxid}
+		</if>
+		<if test="quections != null and '' != quections">
+			and a.quections = #{quections}
+		</if>
+		<if test="parsing != null and '' != parsing">
+			and a.parsing = #{parsing}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getWrongsByLike" parameterType="wrongs" resultMap="wrongsMap">
+		select a.* , b.realname , c.coursename , d.sectionxname from wrongs a , users b , course c , sectionx d where a.usersid = b.usersid and a.courseid =
+		c.courseid and a.sectionxid = d.sectionxid
+		<if test="usersid != null and '' != usersid">
+			and b.realname like CONCAT('%', CONCAT(#{usersid}, '%'))
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and c.coursename like CONCAT('%', CONCAT(#{courseid}, '%'))
+		</if>
+		<if test="sectionxid != null and '' != sectionxid">
+			and d.sectionxname like CONCAT('%', CONCAT(#{sectionxid}, '%'))
+		</if>
+		<if test="quections != null and '' != quections">
+			and a.quections like CONCAT('%', CONCAT(#{quections}, '%'))
+		</if>
+		<if test="parsing != null and '' != parsing">
+			and a.parsing like CONCAT('%', CONCAT(#{parsing}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

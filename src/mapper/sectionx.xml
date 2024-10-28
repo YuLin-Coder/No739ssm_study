@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.SectionxDAO">
+	<resultMap type="sectionx" id="sectionxMap">
+		<id property="sectionxid" column="sectionxid" />
+		<result property="sectionxname" column="sectionxname" />
+		<result property="courseid" column="courseid" />
+		<result property="memo" column="memo" />
+		<result property="coursename" column="coursename" />
+		<result property="teacherid" column="teacherid" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertSectionx" parameterType="sectionx">
+		insert into sectionx(sectionxid , sectionxname , courseid , memo ) values(#{sectionxid} , #{sectionxname} ,
+		#{courseid} , #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateSectionx" parameterType="sectionx">
+		update sectionx set sectionxname=#{sectionxname} , courseid=#{courseid} , memo=#{memo} where
+		sectionxid=#{sectionxid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteSectionx" parameterType="String">
+		delete from sectionx where sectionxid = #{sectionxid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllSectionx" resultMap="sectionxMap">
+		select a.* , b.coursename from sectionx a , course b where a.courseid = b.courseid order by sectionxid
+		desc
+	</select>
+
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getSectionxById" parameterType="String" resultMap="sectionxMap">
+		select a.* , b.coursename from sectionx a , course b where a.courseid = b.courseid
+		and sectionxid=#{sectionxid} order by sectionxid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getSectionxByCond" parameterType="sectionx" resultMap="sectionxMap">
+		select a.* , b.coursename from sectionx a , course b where a.courseid = b.courseid
+		<if test="sectionxname != null and '' != sectionxname">
+			and a.sectionxname = #{sectionxname}
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and a.courseid = #{courseid}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+		<if test="teacherid != null and '' != teacherid">
+			and b.teacherid = #{teacherid}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getSectionxByLike" parameterType="sectionx" resultMap="sectionxMap">
+		select a.* , b.coursename from sectionx a , course b where a.courseid = b.courseid
+		<if test="sectionxname != null and '' != sectionxname">
+			and a.sectionxname like CONCAT('%', CONCAT(#{sectionxname}, '%'))
+		</if>
+		<if test="courseid != null and '' != courseid">
+			and b.coursename like CONCAT('%', CONCAT(#{courseid}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
